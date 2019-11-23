@@ -1,0 +1,43 @@
+image: registry-sho.hypereal.com/fe/yarn-with-smbclient:1.13.0-r2
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  # When using dind, it's wise to use the overlayfs driver for
+  # improved performance.
+  DOCKER_DRIVER: overlay2
+  # For non-Kubernetes executors, we use tcp://docker:2375/
+  DOCKER_HOST: tcp://localhost:2375/
+
+before_script:
+  - cat ./.npmrc
+  - yarn
+
+stages:
+  - build
+  - publish
+
+build:
+  stage: build
+  artifacts:
+    name: build
+    expire_in: 60 mins
+    paths:
+      - node_modules/
+      - dist
+  script:
+    - 'ls -la'
+    - yarn lint
+    - yarn build
+
+publish:
+  stage: publish
+  artifacts:
+    name: publish
+    expire_in: 60 mins
+    paths:
+      - dist
+  script:
+    - 'ls -la'
+    - 'ls -Rl dist'
+    - cat src/**/*.d.ts > dist/types.d.ts
+    - yarn publish --non-interactive
