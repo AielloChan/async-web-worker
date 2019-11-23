@@ -87,6 +87,11 @@ await apiWorker.sayHello('AielloChan') // this async method run in web worker ðŸ
 
 Welcome
 
+## Change log
+
+- 2019-11-23 21:28:55
+  >Update output from es5 to es6
+
 ## Contributors
 
 - AielloChan [website](http://aiellochan.com), [email](mailto:aiello.chan@gmail.com)
