@@ -2,7 +2,7 @@
   "name": "async-web-worker",
   "version": "1.0.1",
   "private": false,
-  "license": "(ISC OR GPL-3.0)",
+  "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "repository": {
