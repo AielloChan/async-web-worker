@@ -39,19 +39,6 @@ module.exports = env => {
           use: ['style-loader', 'css-loader'],
         },
         {
-          test: /\.scss$/,
-          use: [
-            'style-loader',
-            'css-loader',
-            {
-              loader: 'sass-loader',
-              options: {
-                implementation: require('sass'),
-              },
-            },
-          ],
-        },
-        {
           test: /\.svg$/,
           use: 'svg-inline-loader',
         },
