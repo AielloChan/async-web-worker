@@ -6,65 +6,6 @@ function uuid() {
   return `${nanoid()}_${+new Date()}`
 }
 
-// export function Expose<T>(funcs: APIObj): T {
-//   const bus = new Map()
-//   onmessage = async ({ data }) => {
-//     const { from, type, id, func, param } = data
-//     if (from !== MESSAGE_TYPE) return
-//     const targetFunc = funcs[func]
-//     let msg = {}
-//     if (targetFunc instanceof Function) {
-//       try {
-//         const result = await targetFunc(...param)
-//         msg = {
-//           id,
-//           result,
-//           type: MESSAGE_TYPE,
-//           success: true,
-//         }
-//       } catch (e) {
-//         msg = {
-//           id,
-//           type: MESSAGE_TYPE,
-//           success: false,
-//           result: e,
-//         }
-//       }
-//     } else {
-//       msg = {
-//         id,
-//         type: MESSAGE_TYPE,
-//         success: false,
-//         result: `${func} is not a function`,
-//       }
-//     }
-//     // @ts-ignore
-//     postMessage(msg)
-//   }
-//   return new Proxy(
-//     {},
-//     {
-//       get(_, key) {
-//         return function() {
-//           const param = [...arguments]
-//           return new Promise((resolve, reject) => {
-//             const id = uuid()
-//             bus.set(id, { resolve, reject })
-//             // @ts-ignore
-//             postMessage({
-//               id,
-//               param,
-//               from: MESSAGE_TYPE,
-//               type: 'call',
-//               func: key,
-//             } as CallMessage)
-//           })
-//         }
-//       },
-//     },
-//   ) as T
-// }
-
 function BindMessage<T>(context: Worker | any, api?: APIObj): T {
   const bus = new Map()
   context.onmessage = ({ data }: { data: Message }) => {
