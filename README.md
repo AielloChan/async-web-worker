@@ -4,7 +4,7 @@
 
 ## Info
 
-Use web worker as async function
+Use web worker as async function, both side!
 
 ## Use
 
@@ -89,6 +89,8 @@ Welcome
 
 ## Change log
 
+- 2019-11-27 19:53:02
+  >Add web worker access main thread🤩
 - 2019-11-23 21:28:55
   >Update output from es5 to es6
 

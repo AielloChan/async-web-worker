@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { Wrap } from '../lib'
 import APIWorker from './index.worker'
-
+import store from './store'
 // @ts-ignore
 const myWorker = new APIWorker() as Worker
-const apiWorker = Wrap<typeof APIWorker>(myWorker)
+
+const apiWorker = Wrap<typeof APIWorker>(myWorker, store)
 
 export default (): JSX.Element => {
   const [msg, setMsg] = useState('')
