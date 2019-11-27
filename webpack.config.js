@@ -8,6 +8,7 @@ module.exports = env => {
       path: path.resolve(__dirname, 'dist'),
       libraryTarget: 'umd',
       filename: 'index.js',
+      globalObject: 'this',
     },
     module: {
       rules: [
