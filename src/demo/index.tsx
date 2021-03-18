@@ -1,35 +1,41 @@
 import React, { useCallback, useState } from 'react'
 import { Wrap } from '../lib'
 import APIWorker from './index.worker'
-import store from './store'
+import './style.css'
+
 // @ts-ignore
-const myWorker = new APIWorker() as Worker
+// Init wrapped worker
+const apiWorker = Wrap<typeof APIWorker>(new APIWorker() as Worker)
 
-const apiWorker = Wrap<typeof APIWorker>(myWorker, store)
-
-export default (): JSX.Element => {
+const App = (): JSX.Element => {
   const [msg, setMsg] = useState('')
   const sayHello = useCallback(async (name: string) => {
+    // call directly as async func
+    // and it real running in worker
     const result = await apiWorker.sayHello(name)
     setMsg(result)
   }, [])
 
   return (
     <section>
-      <h1>Async Web Worker Demo</h1>
+      <h2>Main Call Worker</h2>
+      <p>
+        This demo shows that you can call api in worker from main thread with
+        typescript intelligent tips.
+      </p>
       <h2>{msg}</h2>
-      <button onClick={() => sayHello('Aiello')}>Say hello to Aiello</button>
-      <button onClick={() => sayHello('Jessica')}>Say hello to Jessica</button>
-
-      <br />
-      <br />
-
+      <button className="glow-on-hover" onClick={() => sayHello('Aiello')}>
+        Call "sayHello" from main
+      </button>
+      &nbsp;&nbsp;
       <button
         className="glow-on-hover"
         onClick={async () => setMsg(await apiWorker.echo('Hello there'))}
       >
-        Worker Echo
+        Call "echo" from main
       </button>
     </section>
   )
 }
+
+export default App

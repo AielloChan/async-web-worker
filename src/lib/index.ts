@@ -1,9 +1,16 @@
-import nanoid from 'nanoid'
+(global as any).$RefreshReg$ = () => { };
+(global as any).$RefreshSig$$ = () => () => { };
 
 const MESSAGE_TYPE = 'async-worker'
 
-function uuid() {
-  return `${nanoid()}_${+new Date()}`
+// https://github.com/ai/nanoid/blob/main/nanoid.js
+function nanoid(t = 21) {
+  let e = "", r = crypto.getRandomValues(new Uint8Array(t));
+  for (; t--;) {
+    let n = 63 & r[t];
+    e += n < 36 ? n.toString(36) : n < 62 ? (n - 26).toString(36).toUpperCase() : n < 63 ? "_" : "-"
+  }
+  return e
 }
 
 function BindMessage<T>(context: Worker | any, api?: APIObj): T {
@@ -65,10 +72,10 @@ function BindMessage<T>(context: Worker | any, api?: APIObj): T {
     {},
     {
       get(_, key) {
-        return function() {
+        return function () {
           const param = [...arguments]
           return new Promise((resolve, reject) => {
-            const id = uuid()
+            const id = nanoid()
             bus.set(id, { resolve, reject })
             context.postMessage({
               id,
@@ -85,8 +92,7 @@ function BindMessage<T>(context: Worker | any, api?: APIObj): T {
 }
 
 export function Expose<T>(api: APIObj): T {
-  // eslint-disable-next-line
-  return BindMessage<T>(self, api)
+  return BindMessage<T>(globalThis, api)
 }
 export function Wrap<T>(worker: Worker, api = {} as APIObj): T {
   return BindMessage<T>(worker, api)

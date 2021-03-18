@@ -1,14 +1,5 @@
 import { Expose } from '../lib'
 import * as api from './api'
-import store from './store'
-
-const main = Expose<typeof store>(api)
+Expose(api)
+console.log("kokoo");
 export default {} as typeof api
-
-async function workWithLocalStorage() {
-  await main.setStore('from', 'web worker')
-  const value = await main.getStore('from')
-  console.log('from :', value)
-}
-
-workWithLocalStorage()
