@@ -1,4 +1,4 @@
-<image src="./logo.png" width="200"/>
+<p align="center"><image src="./logo.png" width="200"/></p>
 
 # Async Web Worker
 
