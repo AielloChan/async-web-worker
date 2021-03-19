@@ -4,7 +4,7 @@
 
 ## Info
 
-Use web worker as async function, both side!
+Use web worker as **normal async function** with **typescript intelligent tips**, both side!
 
 ## Use
 
